@@ -1,0 +1,224 @@
+#include <iostream>
+
+using namespace std;
+
+//Board constraints
+#define MAP_WIDTH               40
+#define MAP_HEIGHT 				20
+
+//Amount of players in game
+#define PLAYERS      			2
+#define MAX_BALLS				3
+#define INITIAL_BALLS			20
+
+//Player's paddle constraints
+#define PADDLE_HEIGHT			7
+#define PADDLE_INITIAL_Y		MAP_HEIGHT/2 - PADDLE_HEIGHT/2
+
+#define PLAYER_0				0
+#define PLAYER_1				1	
+
+struct Point {
+	int8_t x;
+	int8_t y;
+};
+
+typedef enum {
+	LEFT = 0,
+	RIGHT
+} Direction;
+
+//dirs[Inverted Logic][Action]
+int8_t dirs[2][3] = {
+	{
+		-1, 0, 1
+	},
+	{
+		1, 0, -1
+	}
+};
+
+struct Ball {
+	bool alive;
+	Point position;
+	Direction direction;
+	bool inverted_action;//Flag to know if ball has the actions inverted
+};
+
+typedef enum e_action {
+	Up = 1,
+	Center = 2,
+	Down = 3
+} e_direction_t;
+
+e_direction_t player_balls_actions[PLAYERS][MAX_BALLS];
+
+//Coordinates of player's bars, player_paddles[number of player]
+Point player_paddles[PLAYERS];
+//Amount of balls remaining for each player, player_remaining_balls[number of player]
+uint8_t player_remaining_balls[PLAYERS];
+//Tracker of player's score, player_scores[number of player]
+uint8_t player_scores[PLAYERS];
+//Information about balls in game, player_balls[number of player][ball number]
+Ball player_balls[PLAYERS][MAX_BALLS];
+
+void init() {
+
+	//Init the initial location of players paddles
+	player_paddles[PLAYER_0] = { 0,PADDLE_INITIAL_Y };
+	player_paddles[PLAYER_1] = { MAP_WIDTH - 1,PADDLE_INITIAL_Y };
+
+	for (uint8_t p = 0; p < PLAYERS; p++) {
+		//Initially player has the initial amount of balls for use
+		player_remaining_balls[p] = INITIAL_BALLS;
+		player_scores[p] = 0;
+
+		//Initially all balls are deactivated
+		for (uint8_t t = 0; t < MAX_BALLS; t++) {
+			player_balls[p][t].alive = false;
+		}
+	}
+}
+
+void init_task() {
+	for (uint8_t p = 0; p < PLAYERS; p++) {
+		for (uint8_t t = 0; t < MAX_BALLS; t++) {
+			player_balls[p][t].alive = true;
+			player_balls[p][t].direction = (p == 0) ? LEFT : RIGHT;
+			player_balls[p][t].inverted_action = false;
+			player_balls[p][t].position = { MAP_WIDTH / 2,MAP_HEIGHT / 2 };
+		}
+	}
+
+	player_balls[1][0].position = { MAP_WIDTH-2,0 };
+	player_balls_actions[0][0] = Up;
+	player_balls_actions[1][0] = Up;
+	player_balls_actions[0][1] = Down;
+	player_balls_actions[1][1] = Down;
+	player_balls_actions[0][2] = Center;
+	player_balls_actions[1][2] = Center;
+}
+
+void update_balls() {
+	for (uint8_t p = 0; p < PLAYERS; p++) {
+		for (uint8_t t = 0; t < MAX_BALLS; t++) {
+			//Check if actual ball is in game
+			if (player_balls[p][t].alive) {
+
+				//action is either Up=1, Center=2, Down=3
+				e_direction_t action = player_balls_actions[p][t];
+
+				Ball& ball = player_balls[p][t];
+
+				Direction ball_dir = ball.direction;
+				bool inverted_action = ball.inverted_action;
+
+				//Move
+				if (ball.direction == Direction::LEFT)
+					ball.position.x--;
+				else
+					ball.position.x++;
+
+				//Move ball vertically using the action and the inverted action flag
+				player_balls[p][t].position.y += dirs[inverted_action][action - 1];
+
+
+				//XChecking y collision first is needed so the x collision check works correctly after
+
+				//Ball hit horizontal top wall
+				if (ball.position.y == -1) {
+					ball.position.y = 1;
+					ball.inverted_action = !ball.inverted_action;
+				}//Ball hit horizontal bottom wall
+				else if (ball.position.y == MAP_HEIGHT) {
+					ball.position.y = MAP_HEIGHT - 2;
+					ball.inverted_action = !ball.inverted_action;
+				}
+
+				//Ball is in the player 0 goal zone
+				if (ball.position.x == 0) {
+					//Ball was rejected by player 0 paddle
+					if (player_paddles[PLAYER_0].y <= ball.position.y && ball.position.y < (player_paddles[PLAYER_0].y + PADDLE_HEIGHT)){
+						ball.position.x = 2;
+						ball.direction = (ball.direction == Direction::LEFT) ? Direction::RIGHT : Direction::LEFT;
+					}//Ball got into goal zone succesfully, player 1 scores a point
+					else {
+						player_scores[PLAYER_1]++;
+						ball.alive = false;
+					}
+				}//Ball is in the player 1 goal zone
+				else if (ball.position.x == MAP_WIDTH - 1) {
+					//Ball was rejected by player 1 paddle
+					if (player_paddles[PLAYER_1].y <= ball.position.y && ball.position.y < (player_paddles[PLAYER_1].y + PADDLE_HEIGHT)) {
+						ball.position.x = (MAP_WIDTH-1)-2;
+						ball.direction = (ball.direction == Direction::LEFT) ? Direction::RIGHT : Direction::LEFT;
+					}//Ball got into goal zone succesfully, player 0 scores a point
+					else {
+						player_scores[PLAYER_0]++;
+						ball.alive = false;
+					}
+				}
+
+			}
+		}
+	}
+}
+
+void draw_screen() {
+	system("CLS");
+
+	char buffer[MAP_HEIGHT][MAP_WIDTH];
+
+	for (uint8_t y = 0; y < MAP_HEIGHT; y++) {
+		for (uint8_t x = 0; x < MAP_WIDTH; x++) {
+			buffer[y][x] = ' ';
+		}
+	}
+
+	for (uint8_t p = 0; p < PLAYERS; p++) {
+		for (uint8_t t = 0; t < MAX_BALLS; t++) {
+			if(player_balls[p][t].alive)
+				buffer[player_balls[p][t].position.y][player_balls[p][t].position.x] = (p == PLAYER_0) ? 'O' : 'X';
+		}
+	}
+
+	for (uint8_t p = 0; p < PLAYERS; p++) {
+		for (uint8_t i = 0; i < PADDLE_HEIGHT; i++) {
+			buffer[player_paddles[p].y+i][player_paddles[p].x] = '#';
+		}
+	}
+
+
+	for (uint8_t x = 0; x < MAP_WIDTH+2; x++)
+		cout << '#';
+	cout << endl;
+
+	for (uint8_t y = 0; y < MAP_HEIGHT; y++) {
+		cout << '#';
+		for (uint8_t x = 0; x < MAP_WIDTH; x++) {
+			cout << buffer[y][x];
+		}
+		cout << '#';
+		cout << endl;
+	}
+
+	for (uint8_t x = 0; x < MAP_WIDTH+2; x++)
+		cout << '#';
+	cout << endl;
+
+	cerr << "PLAYER 1 SCORE: " << (int)player_scores[0] << " | PLAYER 2 SCORE: " << (int)player_scores[1] << endl;
+
+}
+
+int main() {
+
+	init();
+	init_task();
+	draw_screen();
+	while (1) {
+		update_balls();
+		draw_screen();
+	}
+
+	return 0;
+}

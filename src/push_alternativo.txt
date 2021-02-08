@@ -1,0 +1,209 @@
+//entradas tss 19-31 
+    [19]=(gdt_entry) {
+        //TAREA IDLE
+        (uint16_t)    0x67,          /* limit[0:15]  */
+        (uint16_t)    0xC000,         /* base[0:15]   */
+        (uint8_t)     0x01,           /* base[23:16]  */
+        (uint8_t)     0b1001,           /* type         */
+        (uint8_t)     0x00,           /* s = system     */
+        (uint8_t)     0x00,           /* dpl = 0      */
+        (uint8_t)     0x01,           /* p            */
+        (uint8_t)     0x00,           /* limit[16:19] */
+        (uint8_t)     0x01,           /* avl          */
+        (uint8_t)     0x00,           /* l            */
+        (uint8_t)     0x00,           /* db           */
+        (uint8_t)     0x00,           /* g = 0            */
+        (uint8_t)     0x00,           /* base[31:24]  */
+    }
+        [20]=(gdt_entry) {
+        //TAREA 1A
+        (uint16_t)    0x67,          /* limit[0:15]  */
+        (uint16_t)    0x0000,         /* base[0:15]   */
+        (uint8_t)     0x00,           /* base[23:16]  */
+        (uint8_t)     0b1001,           /* type         */
+        (uint8_t)     0x00,           /* s = system     */
+        (uint8_t)     0x00,           /* dpl = 0      */
+        (uint8_t)     0x01,           /* p            */
+        (uint8_t)     0x00,           /* limit[16:19] */
+        (uint8_t)     0x01,           /* avl          */
+        (uint8_t)     0x00,           /* l            */
+        (uint8_t)     0x00,           /* db           */
+        (uint8_t)     0x00,           /* g = 0            */
+        (uint8_t)     0x00,           /* base[31:24]  */
+    }
+        [21]=(gdt_entry) {
+        //TAREA 2A
+        (uint16_t)    0x67,          /* limit[0:15]  */
+        (uint16_t)    0x0000,         /* base[0:15]   */
+        (uint8_t)     0x00,           /* base[23:16]  */
+        (uint8_t)     0b1001,           /* type         */
+        (uint8_t)     0x00,           /* s = system     */
+        (uint8_t)     0x00,           /* dpl = 0      */
+        (uint8_t)     0x01,           /* p            */
+        (uint8_t)     0x00,           /* limit[16:19] */
+        (uint8_t)     0x01,           /* avl          */
+        (uint8_t)     0x00,           /* l            */
+        (uint8_t)     0x00,           /* db           */
+        (uint8_t)     0x00,           /* g = 0            */
+        (uint8_t)     0x00,           /* base[31:24]  */
+    }
+        [22]=(gdt_entry) {
+        //TAREA 3A
+        (uint16_t)    0x67,          /* limit[0:15]  */
+        (uint16_t)    0x0000,         /* base[0:15]   */
+        (uint8_t)     0x00,           /* base[23:16]  */
+        (uint8_t)     0b1001,           /* type         */
+        (uint8_t)     0x00,           /* s = system     */
+        (uint8_t)     0x00,           /* dpl = 0      */
+        (uint8_t)     0x01,           /* p            */
+        (uint8_t)     0x00,           /* limit[16:19] */
+        (uint8_t)     0x01,           /* avl          */
+        (uint8_t)     0x00,           /* l            */
+        (uint8_t)     0x00,           /* db           */
+        (uint8_t)     0x00,           /* g = 0            */
+        (uint8_t)     0x00,           /* base[31:24]  */
+    }
+        [23]=(gdt_entry) {
+        //TAREA 1B
+        (uint16_t)    0x67,          /* limit[0:15]  */
+        (uint16_t)    0x0000,         /* base[0:15]   */
+        (uint8_t)     0x00,           /* base[23:16]  */
+        (uint8_t)     0b1001,           /* type         */
+        (uint8_t)     0x00,           /* s = system     */
+        (uint8_t)     0x00,           /* dpl = 0      */
+        (uint8_t)     0x01,           /* p            */
+        (uint8_t)     0x00,           /* limit[16:19] */
+        (uint8_t)     0x01,           /* avl          */
+        (uint8_t)     0x00,           /* l            */
+        (uint8_t)     0x00,           /* db           */
+        (uint8_t)     0x00,           /* g = 0            */
+        (uint8_t)     0x00,           /* base[31:24]  */
+    }
+        [24]=(gdt_entry) {
+        //TAREA 2B
+        (uint16_t)    0x67,          /* limit[0:15]  */
+        (uint16_t)    0x0000,         /* base[0:15]   */
+        (uint8_t)     0x00,           /* base[23:16]  */
+        (uint8_t)     0b1001,           /* type         */
+        (uint8_t)     0x00,           /* s = system     */
+        (uint8_t)     0x00,           /* dpl = 0      */
+        (uint8_t)     0x01,           /* p            */
+        (uint8_t)     0x00,           /* limit[16:19] */
+        (uint8_t)     0x01,           /* avl          */
+        (uint8_t)     0x00,           /* l            */
+        (uint8_t)     0x00,           /* db           */
+        (uint8_t)     0x00,           /* g = 0            */
+        (uint8_t)     0x00,           /* base[31:24]  */
+    }
+        [25]=(gdt_entry) {
+        //TAREA 3B
+        (uint16_t)    0x67,          /* limit[0:15]  */
+        (uint16_t)    0x0000,         /* base[0:15]   */
+        (uint8_t)     0x00,           /* base[23:16]  */
+        (uint8_t)     0b1001,           /* type         */
+        (uint8_t)     0x00,           /* s = system     */
+        (uint8_t)     0x00,           /* dpl = 0      */
+        (uint8_t)     0x01,           /* p            */
+        (uint8_t)     0x00,           /* limit[16:19] */
+        (uint8_t)     0x01,           /* avl          */
+        (uint8_t)     0x00,           /* l            */
+        (uint8_t)     0x00,           /* db           */
+        (uint8_t)     0x00,           /* g = 0            */
+        (uint8_t)     0x00,           /* base[31:24]  */
+    }
+        [26]=(gdt_entry) {
+        //HANDLER 1A
+        (uint16_t)    0x67,          /* limit[0:15]  */
+        (uint16_t)    0x0000,         /* base[0:15]   */
+        (uint8_t)     0x00,           /* base[23:16]  */
+        (uint8_t)     0b1001,           /* type         */
+        (uint8_t)     0x00,           /* s = system     */
+        (uint8_t)     0x00,           /* dpl = 0      */
+        (uint8_t)     0x01,           /* p            */
+        (uint8_t)     0x00,           /* limit[16:19] */
+        (uint8_t)     0x01,           /* avl          */
+        (uint8_t)     0x00,           /* l            */
+        (uint8_t)     0x00,           /* db           */
+        (uint8_t)     0x00,           /* g = 0            */
+        (uint8_t)     0x00,           /* base[31:24]  */
+    }
+        [27]=(gdt_entry) {
+        //HANDLER 2A
+        (uint16_t)    0x67,          /* limit[0:15]  */
+        (uint16_t)    0x0000,         /* base[0:15]   */
+        (uint8_t)     0x00,           /* base[23:16]  */
+        (uint8_t)     0b1001,           /* type         */
+        (uint8_t)     0x00,           /* s = system     */
+        (uint8_t)     0x00,           /* dpl = 0      */
+        (uint8_t)     0x01,           /* p            */
+        (uint8_t)     0x00,           /* limit[16:19] */
+        (uint8_t)     0x01,           /* avl          */
+        (uint8_t)     0x00,           /* l            */
+        (uint8_t)     0x00,           /* db           */
+        (uint8_t)     0x00,           /* g = 0            */
+        (uint8_t)     0x00,           /* base[31:24]  */
+    }
+        [28]=(gdt_entry) {
+        //HANDLER 3A
+        (uint16_t)    0x67,          /* limit[0:15]  */
+        (uint16_t)    0x0000,         /* base[0:15]   */
+        (uint8_t)     0x00,           /* base[23:16]  */
+        (uint8_t)     0b1001,           /* type         */
+        (uint8_t)     0x00,           /* s = system     */
+        (uint8_t)     0x00,           /* dpl = 0      */
+        (uint8_t)     0x01,           /* p            */
+        (uint8_t)     0x00,           /* limit[16:19] */
+        (uint8_t)     0x01,           /* avl          */
+        (uint8_t)     0x00,           /* l            */
+        (uint8_t)     0x00,           /* db           */
+        (uint8_t)     0x00,           /* g = 0            */
+        (uint8_t)     0x00,           /* base[31:24]  */
+    }
+        [29]=(gdt_entry) {
+        //HANDLER 1B
+        (uint16_t)    0x67,          /* limit[0:15]  */
+        (uint16_t)    0x0000,         /* base[0:15]   */
+        (uint8_t)     0x00,           /* base[23:16]  */
+        (uint8_t)     0b1001,           /* type         */
+        (uint8_t)     0x00,           /* s = system     */
+        (uint8_t)     0x00,           /* dpl = 0      */
+        (uint8_t)     0x01,           /* p            */
+        (uint8_t)     0x00,           /* limit[16:19] */
+        (uint8_t)     0x01,           /* avl          */
+        (uint8_t)     0x00,           /* l            */
+        (uint8_t)     0x00,           /* db           */
+        (uint8_t)     0x00,           /* g = 0         */
+        (uint8_t)     0x00,           /* base[31:24]  */
+    }
+        [30]=(gdt_entry) {
+        //HANDLER 2B
+        (uint16_t)    0x67,          /* limit[0:15]  */
+        (uint16_t)    0x0000,         /* base[0:15]   */
+        (uint8_t)     0x00,           /* base[23:16]  */
+        (uint8_t)     0b1001,           /* type         */
+        (uint8_t)     0x00,           /* s = system     */
+        (uint8_t)     0x00,           /* dpl = 0      */
+        (uint8_t)     0x01,           /* p            */
+        (uint8_t)     0x00,           /* limit[16:19] */
+        (uint8_t)     0x01,           /* avl          */
+        (uint8_t)     0x00,           /* l            */
+        (uint8_t)     0x00,           /* db           */
+        (uint8_t)     0x00,           /* g = 0            */
+        (uint8_t)     0x00,           /* base[31:24]  */
+    }
+        [31]=(gdt_entry) {
+        //HANDLER 3B
+        (uint16_t)    0x67,          /* limit[0:15]  */
+        (uint16_t)    0x0000,         /* base[0:15]   */
+        (uint8_t)     0x00,           /* base[23:16]  */
+        (uint8_t)     0b1001,           /* type         */
+        (uint8_t)     0x00,           /* s = system     */
+        (uint8_t)     0x00,           /* dpl = 0      */
+        (uint8_t)     0x01,           /* p            */
+        (uint8_t)     0x00,           /* limit[16:19] */
+        (uint8_t)     0x01,           /* avl          */
+        (uint8_t)     0x00,           /* l            */
+        (uint8_t)     0x00,           /* db           */
+        (uint8_t)     0x00,           /* g = 0            */
+        (uint8_t)     0x00,           /* base[31:24]  */
+    }
